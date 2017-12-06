@@ -1,17 +1,28 @@
+
+sudo: required
 language: java
 
 jdk:
   - oraclejdk7
   - openjdk7
 
-cache:
-  directories:
-  - $HOME/.m2
 
-before_install:
-  - . .travis.sh before_install
 
-before_script:
-  - . .travis.sh before_script
+script:
+  - mvn clean cobertura:cobertura -Dtest=ZooKeeperCuratorFailoverTest#teardown -DfailIfNoTests=false
 
-script: MAVEN_OPTS="-Xmx128m" mvn test
+before_deploy:
+- tar -zcvf coverage-result.tar.gz /home/travis/build/leusonmario/helios/target/site/cobertura
+
+deploy:
+  provider: releases
+  api_key:
+    secure: "nIz41G1ckqSApaRgI/hV35SNGXgIqXhM61zLBDopnd5+p+yVgbkMRDvnAm9HGXQhYganRFWdfYUielIC88Piei/LLzKf9VBb/iRoyD+tzP/EtCcvhUsxgyZ/aXyDxCumb0ALFtKNi0SC4WkSgOllG1gyxFmcTNF0YoWo9DB2YGpTbdCtdbJhSGosKUFvX8kH+kQDqgobCv6yt3SGtG8ZGD+kyruTCMIktRRMF9rvdtNHXD09C6gsOS8LKgR/dj/ukSKtKvCPBkWoErxOrrUB9GMz7+aYuNFCY29UR+y0w1kEaEtxUHrhlfHSrqVEAWpHXpodi4idAU0hyzCc5kS7k9wMZFSRjCx3Z6Ys+wTKEgh/Zp9v059Ysg0EEhQe2HxjpuSBCX+JhjyqXo9oJwRJdlFclBEWr9ioqlli1t3eebEy3TC/jIXMU0GdpOi9mvOqv/PpWB931LvkS27Hag1VDyyNg7N1lv0PWkZRhZ4pHAJ/cMXNAd9VzedyAKIaAxh11BUW4J/Zg2y5N05WNd1iCFeim6+Ym3WqKuSRqEVazzL1QWRfkjY5mPw/voKpg0hQKwkVA1tiv3t3xxFZDFHl5AztjaUzIVwxIed7VFa1DNEHtlacOb13P08jxglWLRFvxpQusN3/euI+Qq/0ndl8p0CYjhZ2ppNwddcZ3kGGIgk="
+
+
+  file: coverage-result.tar.gz
+  file_glob: true
+  overwrite: true
+  skip_cleanup: true
+  on:
+    tags: true
