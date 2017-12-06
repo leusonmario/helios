@@ -69,6 +69,7 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <version>2.16</version>
             <configuration>
+<testFailureIgnore>true</testFailureIgnore>
               <enableAssertions>false</enableAssertions>
               <forkCount>1C</forkCount>
               <reuseForks>false</reuseForks>
@@ -81,6 +82,17 @@
               </systemPropertyVariables>
             </configuration>
           </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>cobertura-maven-plugin</artifactId>
+          <version>2.7</version>
+          <configuration>
+              <format>xml</format>
+              <maxmem>256m</maxmem>
+              <!-- aggregated reports for multi-module projects -->
+              <aggregate>true</aggregate>
+          </configuration>
+         </plugin>
         </plugins>
       </build>
     </profile>
@@ -99,6 +111,7 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <version>2.16</version>
             <configuration>
+<testFailureIgnore>true</testFailureIgnore>
               <enableAssertions>false</enableAssertions>
               <forkCount>2</forkCount>
               <reuseForks>false</reuseForks>
@@ -111,6 +124,17 @@
               </systemPropertyVariables>
             </configuration>
           </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>cobertura-maven-plugin</artifactId>
+          <version>2.7</version>
+          <configuration>
+              <format>xml</format>
+              <maxmem>256m</maxmem>
+              <!-- aggregated reports for multi-module projects -->
+              <aggregate>true</aggregate>
+          </configuration>
+         </plugin>
         </plugins>
       </build>
     </profile>
@@ -129,6 +153,7 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <version>2.16</version>
             <configuration>
+<testFailureIgnore>true</testFailureIgnore>
               <enableAssertions>false</enableAssertions>
               <systemPropertyVariables>
                 <logToFile>false</logToFile>
@@ -138,6 +163,17 @@
               </systemPropertyVariables>
             </configuration>
           </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>cobertura-maven-plugin</artifactId>
+          <version>2.7</version>
+          <configuration>
+              <format>xml</format>
+              <maxmem>256m</maxmem>
+              <!-- aggregated reports for multi-module projects -->
+              <aggregate>true</aggregate>
+          </configuration>
+         </plugin>
         </plugins>
       </build>
     </profile>
@@ -149,9 +185,21 @@
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
+<testFailureIgnore>true</testFailureIgnore>
               <skip>true</skip>
             </configuration>
           </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>cobertura-maven-plugin</artifactId>
+          <version>2.7</version>
+          <configuration>
+              <format>xml</format>
+              <maxmem>256m</maxmem>
+              <!-- aggregated reports for multi-module projects -->
+              <aggregate>true</aggregate>
+          </configuration>
+         </plugin>
         </plugins>
       </build>
     </profile>
@@ -241,7 +289,18 @@
           </execution>
         </executions>
       </plugin>
-    </plugins>
+    <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>cobertura-maven-plugin</artifactId>
+          <version>2.7</version>
+          <configuration>
+              <format>xml</format>
+              <maxmem>256m</maxmem>
+              <!-- aggregated reports for multi-module projects -->
+              <aggregate>true</aggregate>
+          </configuration>
+         </plugin>
+        </plugins>
   </build>
 
   <reporting>
