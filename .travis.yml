@@ -1,34 +1,27 @@
+
+sudo: required
 language: java
 
 jdk:
 - oraclejdk7
 
-cache:
-  directories:
-  - $HOME/.m2
 
-before_install:
-- . .travis.sh before_install
-before_script:
-- . .travis.sh before_script
+
+script:
+  - mvn clean cobertura:cobertura -Dtest=AgentRestartTest#test -DfailIfNoTests=false
+
 before_deploy:
-- . .travis.sh before_deploy
-after_deploy:
-- . .travis.sh after_deploy
-
-env:
-  global:
-  - SONATYPE_USERNAME=spotify-helios
-  # generated with travis encrypt SONATYPE_PASSWORD=pass
-  - secure: "nGumIjLR2bz88sGBdDGu/e0P91MRGuBrvyrn49Cfr5jtDRVdByTLkCjZ88c1OxYnjquMN0MT/oAThpdHeRt+A12I0YXXAmlMvvs7Ic5GbljziVmEeX17yLjloqxB8DyhpOcjXba4akqKSAqJqBOrLANmlDZDlcZDcNs3IxBV1yw="
+- tar -zcvf coverage-result.tar.gz /home/travis/build/leusonmario/helios/target/site/cobertura
 
 deploy:
   provider: releases
-  skip_cleanup: true
   api_key:
-    secure: "QOXIIQwINj8rCRbD9vFKc6nhobELQBEK+Tc9lgAVWGfGG7Ry4Yh3xcRQWJCutdlkdCwtmLz5EcefzXxCwlc1a/a63+xtrbxMKunpV5jNnupoFkXdh3f/4TIE5NOZNNV+QjwDSP/bNRmx4YU9XZbzmZDWWnen3WVcEIIPQxYxCx4="
-  file: debs.tgz
+    secure: "GMM9N2fbBYx7GPhnUs7XyE+GyZ+V97ZW2FVdchdBLbtfB7UhrgVX9dXUc4XovQQaEpFiNHHT437oP8h5Fk0GofEOqTa6msshd8gvGfgdaNGvmrunnJmkpH9lL2GN59/NR4rJkGoeeqwcy1qVEP6IJDYbLMZxIYuRt4wWhPZOF5dGgJl5ZUGiyuEh1edUw8gm45Y2a1N6tSYjFWiUJsNEzX5cK0ZciYe9GjKPfV/nPfNCl/Ilx1TK78WNpzSS2mCIDFUI1DLQvq6JWVNnqr6UJmPukdkOpSAEK8SI6xidKj2Vxv8zA3AccASu8ngBkjaC5+OQZ2e+9qqh5hL8AShbe7QDY5OzRF8Bi8hVQ//RtaUKNQ8c9whGcNsficzUSHbHb6SxpT845V5khFk1oUMZ3oLwpdk3RqF4WHGwQlbWtBKuQwThAd2Qu6c7rng3SdtGw7rFwqyx1hDRHkj2Ns0zfogNu01ESFVOBYNX/QAFpN1vMmnFFCiFEN/yI5gkp6hHB0G359aXy36xRUI1LrIYt11aLWB5g5Qvi9b3HmAXHxc2B0DJphYnqHzEl/HI90EeuSXfzjvybPsVXnRylLnXLj9b+xvxP66QSuqmKBcDjQ8EGhcj7He1HCAFBOsPZ+Kk2L97kCb8uUUpW/812/jrIJZ5mvmL4J14CxpnJDAbsXs="
+
+
+  file: coverage-result.tar.gz
+  file_glob: true
+  overwrite: true
+  skip_cleanup: true
   on:
-    # All all_branches is required due to https://github.com/travis-ci/travis-ci/issues/1675
-    all_branches: true
     tags: true
